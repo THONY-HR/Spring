@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bean de connexion à la base de données -->
+    <bean id="utildb" class="connexion.Connexion" init-method="creeCon" destroy-method="closeCon"/>
+
+    <!-- Bean pour un compte par défaut -->
+    <bean id="compte" class="compte.classes.Compte">
+        <property name="id" value="1"/>
+        <property name="num" value="12345"/>
+        <property name="status" value="Actif"/>
+        <property name="solde" value="500.0"/>
+    </bean>
+
+    <!-- BaseDAO comme parent (abstrait) -->
+    <bean id="baseDao" class="dao.BaseDAO" abstract="true">
+        <property name="con" ref="utildb"/>
+    </bean>
+
+    <!-- CompteDAO en injectant la connexion et un compte par défaut -->
+    <bean id="compteDAO" class="compte.daoClasses.CompteDAO" parent="baseDao">
+        <property name="compte" ref="compte"/>
+    </bean>
+
+</beans>

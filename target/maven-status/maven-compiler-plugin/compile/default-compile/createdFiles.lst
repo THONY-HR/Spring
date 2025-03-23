@@ -1,0 +1,12 @@
+com\example\service\Babouin.class
+com\example\service\Mammifere.class
+com\example\dao\BaseDAO.class
+com\example\MainApp.class
+com\example\connexion\Connexion.class
+com\example\dao\BabouinDAO.class
+com\example\service\Seo.class
+com\example\service\BaseModel.class
+com\example\service\Departement.class
+com\example\config\AppConfig.class
+com\example\service\Babouin$BabouinSingleton.class
+com\example\dao\InterfaceDAO.class
