@@ -255,16 +255,74 @@ public class GenericDAO extends BaseDAO {
     }
     
 
-    // @Override
-    // public Object findById() throws Exception {
-    // }
+    @Override
+    public <T extends MapTable> T findById(int id, String tableName, Class<T> classy) throws Exception {
+        List<T> results = findAll(tableName + " WHERE id = '" + id + "'", classy);
+        return results.isEmpty() ? null : results.get(0);
+    }
 
-    // @Override
-    // public Boolean delete() throws Exception {
-    //     return true;
-    // }
+    @Override
+    public <T extends MapTable> T findById(int id, String tableName, Class<T> classy,Connexion c) throws Exception {
+        List<T> results = findAll(tableName + " WHERE id = '" + id + "'", classy,c);
+        return results.isEmpty() ? null : results.get(0);
+    }
+    
+    @Override
+    public <T extends MapTable> Boolean delete(String key, String tableName) throws Exception {
+        Connexion con = super.getCon();
+        
+        if (!con.isOpen()) {
+            con.creeCon();
+        }
 
-    // @Override
-    // public List<Object> pagination(int index, int nbr) throws Exception {
-    // }
+        try {
+            String sql = "DELETE FROM " + tableName + " WHERE id = ?";
+            PreparedStatement pstmt = con.getCon().prepareStatement(sql);
+            pstmt.setString(1, key);
+
+            int rowsDeleted = pstmt.executeUpdate();
+            return rowsDeleted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public <T extends MapTable> Boolean delete(String key, String tableName, Connexion c) throws Exception {
+        Connexion con = c;
+        
+        if (!con.isOpen()) {
+            con.creeCon();
+        }
+
+        try {
+            String sql = "DELETE FROM " + tableName + " WHERE id = ?";
+            PreparedStatement pstmt = con.getCon().prepareStatement(sql);
+            pstmt.setString(1, key);
+
+            int rowsDeleted = pstmt.executeUpdate();
+            return rowsDeleted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    @Override
+    public <T extends MapTable> List<T> pagination(String tableName, int index, int nbr, Class<T> classy) throws Exception {
+        String sql = tableName + " LIMIT " + nbr + " OFFSET " + index;
+        List<T> results = findAll(sql, classy);
+        return results;
+    }  
+
+    @Override
+    public <T extends MapTable> List<T> pagination(String tableName, int index, int nbr, Class<T> classy,Connexion c) throws Exception {
+        String sql = tableName + " LIMIT " + nbr + " OFFSET " + index;
+        List<T> results = findAll(sql, classy,c);
+        return results;
+    }  
 }

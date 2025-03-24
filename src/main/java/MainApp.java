@@ -16,18 +16,22 @@ public class MainApp {
         Mouvement mvt = new Mouvement();
             mvt.setId(1);
             mvt.setCompteId(14);
-            mvt.setAmount(5000);
+            mvt.setAmount(0.1);
             mvt.setType("Debit");
 
         MouvementDAO mouvementDAO = (MouvementDAO) context.getBean("mouvementDAO");
             mouvementDAO.setMouvement(mvt);
             try {
-                Boolean success = mouvementDAO.create(connexion);
-                if (success) {
-                    System.out.println("Mouvement inséré avec succès !");
-                } else {
-                    System.out.println("Échec de l'insertion du Mouvement.");
+                Compte[] compte = mouvementDAO.pagination("Compte", 1, 1, Compte.class).toArray(new Compte[0]);
+                for (int i = 0; i < compte.length; i++) {
+                    compte[i].print();
                 }
+                // Boolean success = mouvementDAO.create(connexion);
+                // if (success) {
+                //     System.out.println("Mouvement inséré avec succès !");
+                // } else {
+                //     System.out.println("Échec de l'insertion du Mouvement.");
+                // }
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -24,32 +24,6 @@ public class MouvementDAO extends GenericDAO {
         this.mouvement = mouvement;
     }
 
-    public Boolean create() {
-        try {
-            Boolean updateCompte = false;
-            Boolean creeMVT = super.create(mouvement);
-            this.setAuto_commit(false);
-            if (mouvement.getType().equals("Credit")) {
-                List<Compte> comptesList = this.findAll("Compte", Compte.class);
-                Compte compte = comptesList.toArray(new Compte[0])[0];
-                    compte.setSolde(compte.getSolde() + mouvement.getAmount());
-                    compte.print();
-                CompteDAO compteDAO = new CompteDAO(compte);
-                    updateCompte = compteDAO.update(compte);
-            }
-            if(creeMVT && updateCompte){
-                this.commit();
-                return true;
-            }else{
-                this.rollback();
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public Boolean create(Connexion c) {
         try {
             c.getCon().setAutoCommit(false);
