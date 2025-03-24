@@ -15,3 +15,7 @@ CREATE TABLE Mouvement (
     type ENUM('Debit', 'Credit') NOT NULL,
     FOREIGN KEY (compte_id) REFERENCES Compte(id) ON DELETE CASCADE
 );
+
+SELECT * FROM Compte ORDER BY id DESC LIMIT 1;
+UPDATE Compte set solde=1000 where id=14;
+DELETE FROM Mouvement;

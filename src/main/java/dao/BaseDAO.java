@@ -11,6 +11,11 @@ public abstract class BaseDAO implements InterfaceDAO{
     public Connexion getCon() {
         try {
             con.getCon().setAutoCommit(auto_commit);
+            if (con.isOpen()) {
+                return con;
+            }else{
+                con.creeCon();
+            }
         } catch (Exception e){
             System.err.println(e.getMessage());
         }
@@ -18,5 +23,19 @@ public abstract class BaseDAO implements InterfaceDAO{
     }
     public void setCon(Connexion con) {
         this.con = con;
+    }
+    public void commit(){
+        try {
+            con.getCon().commit(); 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public void rollback(){
+        try {
+            con.getCon().rollback(); 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

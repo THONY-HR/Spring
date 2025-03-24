@@ -15,6 +15,14 @@
         <property name="solde" value="500.0"/>
     </bean>
 
+    <!-- Bean pour un compte par défaut -->
+    <bean id="mouvement" class="compte.classes.Mouvement">
+        <property name="id" value="1"/>
+        <property name="compteId" value="13"/>
+        <property name="amount" value="1000"/>
+        <property name="type" value="Credit"/>
+    </bean>
+
     <!-- BaseDAO comme parent (abstrait) -->
     <bean id="baseDao" class="dao.BaseDAO" abstract="true">
         <property name="con" ref="utildb"/>
@@ -23,6 +31,10 @@
     <!-- CompteDAO en injectant la connexion et un compte par défaut -->
     <bean id="compteDAO" class="compte.daoClasses.CompteDAO" parent="baseDao">
         <property name="compte" ref="compte"/>
+    </bean>
+    <!-- MouvementDAO en injectant la connexion et un compte par défaut -->
+    <bean id="mouvementDAO" class="compte.daoClasses.MouvementDAO" parent="baseDao">
+        <property name="mouvement" ref="mouvement"/>
     </bean>
 
 </beans>

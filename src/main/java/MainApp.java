@@ -3,8 +3,9 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import compte.classes.Compte;
+import compte.classes.*;
 import compte.daoClasses.CompteDAO;
+import compte.daoClasses.MouvementDAO;
 import connexion.Connexion;
 
 public class MainApp {
@@ -12,35 +13,25 @@ public class MainApp {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         Connexion connexion = (Connexion) context.getBean("utildb");
 
-        Compte compte = new Compte();
-            compte.setId(1);
-            compte.setNum("12345");
-            compte.setStatus("Actif");
-            compte.setSolde(1000.0);
+        Mouvement mvt = new Mouvement();
+            mvt.setId(1);
+            mvt.setCompteId(14);
+            mvt.setAmount(5000);
+            mvt.setType("Debit");
 
-        CompteDAO compteDAO = (CompteDAO) context.getBean("compteDAO");
-            /* compteDAO.setCompte(compte);
+        MouvementDAO mouvementDAO = (MouvementDAO) context.getBean("mouvementDAO");
+            mouvementDAO.setMouvement(mvt);
             try {
-                Boolean success = compteDAO.create(connexion);
-                success = compteDAO.create(connexion);
+                Boolean success = mouvementDAO.create(connexion);
                 if (success) {
-                    System.out.println("Compte inséré avec succès !");
+                    System.out.println("Mouvement inséré avec succès !");
                 } else {
-                    System.out.println("Échec de l'insertion du compte.");
+                    System.out.println("Échec de l'insertion du Mouvement.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
-                connexion.closeCon();
-            }*/
-        try {
-            List<Compte> comptesList = compteDAO.findAll("Compte", Compte.class);
-            Compte[] comptes = comptesList.toArray(new Compte[0]);
-            for (int i = 0; i < comptes.length; i++) {
-                comptes[i].print();
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }   
+
+
     }
 }

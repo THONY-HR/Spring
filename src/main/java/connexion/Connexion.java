@@ -36,4 +36,18 @@ public class Connexion extends BaseConfig{
             return false;
         }
     }
+    public void commit(){
+        try {
+            this.getCon().commit(); 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public void rollback(){
+        try {
+            this.getCon().rollback(); 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }
